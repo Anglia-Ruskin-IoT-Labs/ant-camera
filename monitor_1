@@ -1,0 +1,4 @@
+#!/bin/bash
+
+#read from the reading.txt file 
+echo $(cat /home/pi/reading.txt)
