@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<!-- Clear Cache -->
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" /> 
+	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
+	<link rel="stylesheet" type="text/css" href={{ url_for('static', filename='bootstrap.css') }}>
+	<link rel="stylesheet" type="text/css" href={{ url_for('static', filename='custom.css') }}>
+
+	<title>Ant's Camera</title>
+
+</head>
+
+<body style="background-color:#0f0f0a;">
+
+	<!--Displaying the video stream -->
+	<div class="container">
+		<div class="row">
+			<div class="col" id="feed">
+				<!--<img id="myVid-2" src="http://10.23.181.11:8081"></img>-->
+				<img id="myVid-1" src="http://10.23.181.14:8081"></img>
+				<h2 id="heading">Ant's Camera</h2>
+				<div class="row align-items-start" id="sensors">
+					<div class="col">
+						<p id="label">Temperature / Humidity: </p>
+						<div id="auto">
+							<script type="text/javascript" src={{ url_for('static', filename="jquery.min.js") }}></script>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	</div>
+	<!-- Reading the Temperature/Humidity from the server on the pi --> 
+
+	<script type="text/javascript">
+		//Switches between two streams every 16 seconds
+		//Closes the not visible stream completely to save performance
+		function mySwitch(){
+			//Adds the passed time to the pool
+			time = window.time + 2000;
+			// 2 second before switch it creates the nex stream
+			if (time == 14000){
+				// Checks which stream is coming with modulo operator
+				if ((window.modulo % 2) == 0){
+					var p = document.getElementById('feed');
+					var newElement = document.createElement('img');
+					newElement.setAttribute('id', 'myVid-1');
+					newElement.setAttribute('src', 'http://10.23.181.14:8081');
+					p.appendChild(newElement);
+					$('#myVid-1').css('display', 'none');
+				}else{
+					var p = document.getElementById('feed');
+					var newElement = document.createElement('img');
+					newElement.setAttribute('id', 'myVid-2');
+					newElement.setAttribute('src', 'http://10.23.181.11:8081');
+					p.appendChild(newElement);
+					$('#myVid-2').css('display', 'none');
+				}
+			// At 16. second, it resets the timer,
+			// Makes the element switch and removes the old element
+			}
+			if (time == 16000){
+				time = 0;
+				// Checks which stream is coming with modulo operator
+				if ((window.modulo % 2) == 0){
+					$('#myVid-2').css('display', 'none');
+					var element = document.getElementById('myVid-2');
+					element.parentNode.removeChild(element);
+					$('#myVid-1').css('display', 'block');
+
+				} else {
+					$('#myVid-1').css('display', 'none');
+					var element = document.getElementById('myVid-1');
+					element.parentNode.removeChild(element);
+					$('#myVid-2').css('display', 'block');
+				};
+				// Increment
+				if (window.modulo > 9999){
+					var modulo = 1;
+				}else{
+					window.modulo = window.modulo + 1
+				};	
+			}
+			
+			console.log(window.modulo);
+		}
+		function refresh()
+			{
+				setTimeout( function() {
+					$('#auto').load('http://10.23.181.14:8080/getTemp');
+					refresh();
+				}, 2000);
+			}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready( function(){
+			refresh();
+		}); 
+	</script>
+	<script>
+		var modulo = 1;
+		var time = 0;
+		window.setInterval(mySwitch, 2000);
+	</script>
+
+</body>
+</html>

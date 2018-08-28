@@ -1,0 +1,52 @@
+		body {
+			color: white;
+			font-family: courier;
+			text-align: center;
+			font-size: 20px;
+			text-shadow: 2px 0 0 #000, 0 -1px 0 #000, 0 1px 0 #000, -1px 0 0 #000;
+		}
+
+		#label {
+			margin-top: 50px;
+		}
+
+		#heading{
+			font-size: 40px;
+			position: absolute;
+			top: 8px;
+			left: 47%;
+		}
+
+		#sensors{
+			position: absolute;
+			bottom: 8px;
+			left: 47%;
+		}
+
+		#myVid-1{
+		}
+
+		#myVid-2{
+			display: none;
+		}
+
+		.container{
+			max-width: 100%
+		}
+
+		.col{
+			padding-left: 0px;
+			padding-right: 0px;
+		}
+
+		img{
+			vertical-align: middle;
+			border-style: none;
+			display: block;
+			max-width: 100%;
+			width: 100%;
+			height: auto;
+			margin-left: auto;
+    		margin-right: auto;
+		}
+
