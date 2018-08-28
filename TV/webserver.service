@@ -3,8 +3,8 @@ Description=Running a webserver on locahost
 After=network.target
 
 [Service]
-ExecStart=/home/pi/server/env/bin/python3 -u webserver.py
-WorkingDirectory=/home/pi/server
+ExecStart=/home/pi/ant-camera/TV/env/bin/python3 -u webserver.py
+WorkingDirectory=/home/pi/ant-camera/TV
 StandardOutput=inherit
 StandardError=inherit
 Restart=always
